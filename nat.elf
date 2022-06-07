@@ -42,7 +42,7 @@ num: nat -> expr.
 
 +: expr -> expr -> expr. %infix left 2 +.
 -: expr -> expr -> expr. %infix left 2 -.
-*: expr -> expr -> expr. %infix none 1 *.
+*: expr -> expr -> expr. %infix left 1 *.
 
 eval: expr -> nat -> type.
 eval/nat: eval (num X) X.
