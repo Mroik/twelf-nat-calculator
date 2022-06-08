@@ -24,25 +24,41 @@ sum/0: sum z X X.
 sum/1: sum (s X) Y (s Z)
     <- sum X Y Z.
 
+% The operation is invalid if Y > X
 sub: nat -> nat -> nat -> type.
-sub/0: sub X Y Z
+sub/0: sub X X 0.
+sub/1: sub X Y Z
     <- Y < X
     <- sum Z Y X.
 
 mult: nat -> nat -> nat -> type.
-mult/0: mult z X z.
-mult/1: mult (s z) X X.
+mult/0: mult 0 X 0.
+mult/1: mult 1 X X.
 mult/2: mult (s X) Y Z
-    <- s z < s X
+    <- 1 < s X
     <- mult X Y A
     <- sum A Y Z.
+
+power: nat -> nat -> nat -> type.
+power/0: power X 0 1.
+power/1: power X (s Y) Z
+    <- power X Y A
+    <- mult A X Z.
+
+fact: nat -> nat -> type.
+fact/0: fact 0 1.
+fact/1: fact (s X) Y
+    <- fact X Z
+    <- mult Z (s X) Y.
 
 expr: type.
 num: nat -> expr.
 
-+: expr -> expr -> expr. %infix left 2 +.
--: expr -> expr -> expr. %infix left 2 -.
-*: expr -> expr -> expr. %infix left 1 *.
++: expr -> expr -> expr. %infix left 4 +.
+-: expr -> expr -> expr. %infix left 4 -.
+*: expr -> expr -> expr. %infix left 3 *.
+^: expr -> expr -> expr. %infix left 2 ^.
+!: expr -> expr. %prefix 1 !.
 
 eval: expr -> nat -> type.
 eval/nat: eval (num X) X.
@@ -58,3 +74,10 @@ eval/mult: eval (X * Y) Z
     <- eval X X1
     <- eval Y Y1
     <- mult X1 Y1 Z.
+eval/power: eval (X ^ Y) Z
+    <- eval X X1
+    <- eval Y Y1
+    <- power X1 Y1 Z.
+eval/fact: eval (! X) Y
+    <- eval X X1
+    <- fact X1 Y.
