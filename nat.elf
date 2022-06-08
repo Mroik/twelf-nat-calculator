@@ -75,7 +75,7 @@ num: nat -> expr.
 *: expr -> expr -> expr. %infix left 2 *.
 /: expr -> expr -> expr. %infix left 2 /.
 ^: expr -> expr -> expr. %infix left 3 ^.
-!: expr -> expr. %prefix 4 !.
+!: expr -> expr. %postfix 4 !.
 log: expr -> expr -> expr.
 
 eval: expr -> nat -> type.
@@ -100,7 +100,7 @@ eval/power: eval (X ^ Y) Z
     <- eval X X1
     <- eval Y Y1
     <- power X1 Y1 Z.
-eval/fact: eval (! X) Y
+eval/fact: eval (X !) Y
     <- eval X X1
     <- fact X1 Y.
 eval/logar: eval (log X Y) Z
