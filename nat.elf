@@ -39,6 +39,15 @@ mult/2: mult (s X) Y Z
     <- mult X Y A
     <- sum A Y Z.
 
+% The operation is valid only if Z is a natural number
+div: nat -> nat -> nat -> type.
+div/0: div 0 X 0
+    <- 0 < X.
+div/1: div X Y Z
+    <- sub X Y A
+    <- div A Y B
+    <- sum 1 B Z.
+
 power: nat -> nat -> nat -> type.
 power/0: power X 0 1.
 power/1: power X (s Y) Z
@@ -57,6 +66,7 @@ num: nat -> expr.
 +: expr -> expr -> expr. %infix left 4 +.
 -: expr -> expr -> expr. %infix left 4 -.
 *: expr -> expr -> expr. %infix left 3 *.
+/: expr -> expr -> expr. %infix left 3 /.
 ^: expr -> expr -> expr. %infix left 2 ^.
 !: expr -> expr. %prefix 1 !.
 
@@ -74,6 +84,10 @@ eval/mult: eval (X * Y) Z
     <- eval X X1
     <- eval Y Y1
     <- mult X1 Y1 Z.
+eval/div: eval (X / Y) Z
+    <- eval X X1
+    <- eval Y Y1
+    <- div X1 Y1 Z.
 eval/power: eval (X ^ Y) Z
     <- eval X X1
     <- eval Y Y1
