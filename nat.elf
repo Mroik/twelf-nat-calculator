@@ -60,15 +60,23 @@ fact/1: fact (s X) Y
     <- fact X Z
     <- mult Z (s X) Y.
 
+logar: nat -> nat -> nat -> type.
+logar/0: logar X 1 0.
+logar/1: logar X Y Z
+    <- div Y X A
+    <- logar X A B
+    <- sum 1 B Z.
+
 expr: type.
 num: nat -> expr.
 
-+: expr -> expr -> expr. %infix left 4 +.
--: expr -> expr -> expr. %infix left 4 -.
-*: expr -> expr -> expr. %infix left 3 *.
-/: expr -> expr -> expr. %infix left 3 /.
-^: expr -> expr -> expr. %infix left 2 ^.
-!: expr -> expr. %prefix 1 !.
++: expr -> expr -> expr. %infix left 1 +.
+-: expr -> expr -> expr. %infix left 1 -.
+*: expr -> expr -> expr. %infix left 2 *.
+/: expr -> expr -> expr. %infix left 2 /.
+^: expr -> expr -> expr. %infix left 3 ^.
+!: expr -> expr. %prefix 4 !.
+log: expr -> expr -> expr.
 
 eval: expr -> nat -> type.
 eval/nat: eval (num X) X.
@@ -95,3 +103,7 @@ eval/power: eval (X ^ Y) Z
 eval/fact: eval (! X) Y
     <- eval X X1
     <- fact X1 Y.
+eval/logar: eval (log X Y) Z
+    <- eval X X1
+    <- eval Y Y1
+    <- logar X1 Y1 Z.
