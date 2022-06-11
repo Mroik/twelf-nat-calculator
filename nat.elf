@@ -67,6 +67,14 @@ logar/1: logar X Y Z
     <- logar X A B
     <- sum 1 B Z.
 
+% Even tho Y is not grounded in sq_root/0 the function
+% should terminate because of the rule "Y < X" (keeping
+% the domain for "mult" finite).
+sq_root: nat -> nat -> type.
+sq_root/0: sq_root X Y
+    <- Y < X
+    <- mult Y Y X.
+
 expr: type.
 num: nat -> expr.
 
@@ -77,6 +85,7 @@ num: nat -> expr.
 ^: expr -> expr -> expr. %infix left 3 ^.
 !: expr -> expr. %postfix 4 !.
 log: expr -> expr -> expr.
+sqrt: expr -> expr. %prefix 4 sqrt.
 
 eval: expr -> nat -> type.
 eval/nat: eval (num X) X.
@@ -107,3 +116,6 @@ eval/logar: eval (log X Y) Z
     <- eval X X1
     <- eval Y Y1
     <- logar X1 Y1 Z.
+eval/sq_root: eval (sqrt X) Y
+    <- eval X X1
+    <- sq_root X1 Y.
