@@ -27,7 +27,8 @@ sum/1: sum (s X) Y (s Z)
 % The operation is invalid if Y > X
 sub: nat -> nat -> nat -> type.
 sub/0: sub X 0 X.
-sub/1: sub X X 0.
+sub/1: sub X X 0
+    <- 0 < X.
 sub/2: sub (s X) (s Y) Z
     <- s Y < s X
     <- sub X Y Z.
